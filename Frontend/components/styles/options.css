@@ -1,0 +1,80 @@
+.overlay {
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.options {
+  background: #FFFFFF;
+  z-index: 1001;
+  position: absolute;
+  margin: 10%;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  padding-bottom: 20px;
+}
+
+.optionsChildDiv {
+  margin-left: 10%;
+  margin-right: 10%;
+  width: 80%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.optionsHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: calc(100% - 20px);
+}
+
+.closeOptionsBtn {
+  background: #EA5A3B;
+  margin: 0px;
+}
+
+.closeOptionsBtn:hover {
+  background: #AB422C;
+}
+
+.logoutBtn {
+  background: #E7E95A;
+}
+
+.logoutBtn:hover {
+  background: #B1B238;
+}
+
+.importBtn {
+  background: #52ca62;
+  margin-top: 10px;
+}
+
+.importBtn:hover {
+  background: #40a14d;
+}
+
+.exportBtn {
+  background: #06a3dd;
+}
+
+.exportBtn:hover {
+  background: #0589ba;
+}
+
+.deleteBtn {
+  background: #EA5A3B;
+}
+
+.deleteBtn:hover {
+  background: #AB422C;
+}
