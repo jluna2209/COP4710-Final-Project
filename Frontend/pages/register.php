@@ -15,7 +15,7 @@
       <section id="register">
         <form id="registerForm">
           <div class="form-group">
-            <label for="user_name">Username:</label>
+            <label for="user_name">Username!:</label>
             <input type="text" id="user_name" name="user_name" required>
           </div>
           <div class="form-group">
