@@ -47,21 +47,21 @@
       </section>
     </div>
     <script>
-        function doRegister() {
+ function doRegister() {
     const user_name = document.getElementById("user_name").value.trim();
     const password = document.getElementById("password").value.trim();
     const firstName = document.getElementById("first_name").value;
     const lastName = document.getElementById("last_name").value;
     const userLevel = document.getElementById("userLevel").value;
     const registerResult = document.getElementById("registerResult");
-    
+
     registerResult.innerHTML = "";
-    
+
     if (user_name === "" || password === "" || firstName === "" || userLevel === "") {
         $(registerResult).append("<p>Please fill out all fields.</p>");
         return;
     }
-    
+
     fetch('/Cop4710_Project/WAMPAPI/formhandler.php', {
         method: 'POST',
         headers: {
@@ -69,28 +69,40 @@
         },
         body: `user_name=${encodeURIComponent(user_name)}&password=${encodeURIComponent(password)}&first_name=${encodeURIComponent(firstName)}&last_name=${encodeURIComponent(lastName)}&userLevel=${encodeURIComponent(userLevel)}`
     })
-    .then(response => response.json())
+    .then(response => {
+        // Read the response as text
+        return response.text();
+    })
     .then(data => {
-        console.log(data);
-        if (data.success === false) {
-            $(registerResult).append(`<p>${data.error_message}</p>`);
-        } else if (data.success === true) {
-            $(registerResult).append("<p>Registration successful. Redirecting to your dashboard...</p>");
-            
-            // Store user level and ID in session storage (or use cookies)
-            sessionStorage.setItem('userLevel', userLevel);
-            sessionStorage.setItem('userId', data.user_id);
-            
-            // Redirect based on user level
-            setTimeout(() => {
-                if (userLevel === "superadmin") {
-                    window.location.href = "superadmin_dashboard.php";
-                } else if (userLevel === "admin") {
-                    window.location.href = "admin_dashboard.php";
-                } else {
-                    window.location.href = "../Frontend/index.html";
-                }
-            }, 1500);
+        // Log the entire response to the console
+        console.log("Full response:", data);
+
+        // ***Important***:  Now you need to decide how to handle the data.
+        // If you still want to try parsing it as JSON:
+        try {
+            const jsonData = JSON.parse(data);
+            if (jsonData.success === false) {
+                $(registerResult).append(`<p>${jsonData.error_message}</p>`);
+            } else if (jsonData.success === true) {
+                $(registerResult).append("<p>Registration successful. Redirecting to your dashboard...</p>");
+                sessionStorage.setItem('userLevel', userLevel);
+                sessionStorage.setItem('userId', jsonData.user_id);
+                setTimeout(() => {
+                    if (userLevel === "superadmin") {
+                        window.location.href = "superadmin_dashboard.php";
+                    } else if (userLevel === "admin") {
+                        window.location.href = "admin_dashboard.php";
+                    } else {
+                        window.location.href = "../Frontend/index.html";
+                    }
+                }, 1500);
+            }
+        } catch (e) {
+            // If parsing fails, it's likely HTML, so handle accordingly
+            console.error("Response is not valid JSON", e);
+            $(registerResult).append("<p>Error: Unexpected response from server.</p>");
+            // You might want to display the raw HTML in the registerResult div, but be cautious about security implications!
+            // registerResult.textContent = data;
         }
     })
     .catch(error => {
