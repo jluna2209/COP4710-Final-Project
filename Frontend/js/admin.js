@@ -177,11 +177,17 @@ function submitEventForm() {
         rso_id: form.event_type.value === "rso" ? form.event_rso.value : null
     };
 
-    if (Object.values(eventData).some(v => v === "" || v === null)) {
+    if (
+        !eventData.name || !eventData.category || !eventData.description || 
+        !eventData.date || !eventData.time || !eventData.location ||
+        !eventData.latitude || !eventData.longitude || 
+        !eventData.contact_phone || !eventData.contact_email || 
+        !eventData.type
+    ) {
         result.innerHTML = '<div class="error-message">Please fill in all required fields</div>';
         return;
     }
-
+    
     if (eventData.type === "rso" && !eventData.rso_id) {
         result.innerHTML = '<div class="error-message">Please select an RSO for this event</div>';
         return;
